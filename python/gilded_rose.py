@@ -22,7 +22,10 @@ class GildedRose(object):
                 continue
 
             if "Conjured" in item.name:
-                self.__decrease_quality(item, 2)
+                if item.sell_in < 0:
+                    self.__decrease_quality(item, 4)
+                else:
+                    self.__decrease_quality(item, 2)
 
             elif item.name == "Backstage passes to a TAFKAL80ETC concert":
                 if item.sell_in > 10:
@@ -35,20 +38,18 @@ class GildedRose(object):
                     item.quality = 0
 
             elif item.name == "Aged Brie":
-                self.__increase_quality(item, 1)
+                if item.sell_in < 0:
+                    self.__increase_quality(item, 2)
+                else:
+                    self.__increase_quality(item, 1)
 
             else:
-                self.__decrease_quality(item, 1)
-
-            item.sell_in = item.sell_in - 1
-
-            if item.sell_in < 0:
-                if "Conjured" in item.name:
+                if item.sell_in < 0:
                     self.__decrease_quality(item, 2)
-                elif item.name == "Aged Brie":
-                    self.__increase_quality(item, 1)
                 else:
                     self.__decrease_quality(item, 1)
+
+            item.sell_in = item.sell_in - 1
 
 
 class Item:
