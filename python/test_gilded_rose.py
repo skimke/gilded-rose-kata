@@ -167,5 +167,35 @@ class GildedRoseBackstagePassesTest(unittest.TestCase):
         self.assertEqual(8, self.backstage_passes.quality)
 
 
+class GildedRoseConjuredItemTest(unittest.TestCase):
+    def setUp(self):
+        self.conjured_item = Item(
+            name="Conjured Crystal Water",
+            sell_in=1,
+            quality=2,
+        )
+
+    def test_update_quality_decreases_quality_by_2_for_conjured_items(self):
+        gilded_rose = GildedRose([self.conjured_item])
+
+        gilded_rose.update_quality()
+
+        self.assertEqual(0, self.conjured_item.sell_in)
+        self.assertEqual(0, self.conjured_item.quality)
+
+    def test_update_quality_decreases_quality_by_4_if_sell_in_is_below_0_for_conjured_items(self):
+        self.conjured_item.sell_in = -1
+        self.conjured_item.quality = 8
+        gilded_rose = GildedRose([self.conjured_item])
+
+        gilded_rose.update_quality()
+
+        self.assertEqual(4, self.conjured_item.quality)
+
+        gilded_rose.update_quality()
+
+        self.assertEqual(0, self.conjured_item.quality)
+
+
 if __name__ == '__main__':
     unittest.main()
