@@ -15,6 +15,12 @@ class GildedRose(object):
             if item.quality < 50:
                 item.quality = item.quality + 1
 
+    def __decrease_quality_by_sell_in(self, item, amount=1):
+        if item.sell_in < 0:
+            amount = amount * 2
+
+        self.__decrease_quality(item, amount)
+
     def update_quality(self):
         for item in self.items:
             if item.name == "Sulfuras, Hand of Ragnaros":
@@ -22,10 +28,7 @@ class GildedRose(object):
                 continue
 
             if "Conjured" in item.name:
-                if item.sell_in < 0:
-                    self.__decrease_quality(item, 4)
-                else:
-                    self.__decrease_quality(item, 2)
+                self.__decrease_quality_by_sell_in(item, 2)
 
             elif item.name == "Backstage passes to a TAFKAL80ETC concert":
                 if item.sell_in > 10:
@@ -44,10 +47,7 @@ class GildedRose(object):
                     self.__increase_quality(item, 1)
 
             else:
-                if item.sell_in < 0:
-                    self.__decrease_quality(item, 2)
-                else:
-                    self.__decrease_quality(item, 1)
+                self.__decrease_quality_by_sell_in(item)
 
             item.sell_in = item.sell_in - 1
 
