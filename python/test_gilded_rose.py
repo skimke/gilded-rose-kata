@@ -94,18 +94,20 @@ class GildedRoseSulfurasTest(unittest.TestCase):
             quality=1,
         )
 
-    def test_update_quality_never_decreases_sell_in_or_quality_for_sulfuras(self):
+    def test_update_quality_never_decreases_sell_in_and_sets_quality_to_80_for_sulfuras(self):
         gilded_rose = GildedRose([self.sulfuras])
 
         gilded_rose.update_quality()
 
         self.assertEqual(1, self.sulfuras.sell_in)
-        self.assertEqual(1, self.sulfuras.quality)
+        self.assertEqual(80, self.sulfuras.quality)
 
         self.sulfuras.sell_in = -1
 
+        gilded_rose.update_quality()
+
         self.assertEqual(-1, self.sulfuras.sell_in)
-        self.assertEqual(1, self.sulfuras.quality)
+        self.assertEqual(80, self.sulfuras.quality)
 
 
 class GildedRoseBackstagePassesTest(unittest.TestCase):
