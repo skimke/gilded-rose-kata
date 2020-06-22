@@ -177,6 +177,14 @@ class GildedRoseConjuredItemTest(unittest.TestCase):
             quality=2,
         )
 
+    def test_update_quality_does_not_decrease_quality_below_0(self):
+        self.conjured_item.sell_in = -1
+        gilded_rose = GildedRose([self.conjured_item])
+
+        gilded_rose.update_quality()
+
+        self.assertEqual(0, self.conjured_item.quality)
+
     def test_update_quality_decreases_quality_by_2_for_conjured_items(self):
         gilded_rose = GildedRose([self.conjured_item])
 
